@@ -1,0 +1,26 @@
+# primer contenedor
+
+docker run -d -p 8088:80 -v ${PWD}/apache:/var/www/html --name mi-contenedor-php php:apache-bullseye
+docker exec -it mi-contenedor-php docker-php-ext-install mysqli
+docker exec -it mi-contenedor-php docker-php-ext-enable mysqli
+
+# segundo contenedor
+
+docker run -d -p 3306:3306 --name mi-contenedor-mysql -e MYSQL_ROOT_PASSWORD=root1 -v ${PWD}/db:/var/lib/mysql mysql:debian
+docker exec -it mi-contenedor-mysql mysql -u root -proot1 -e "CREATE DATABASE IF NOT EXISTS prueba;"
+docker exec -it mi-contenedor-mysql mysql -u root -proot1 prueba < datos.sql
+
+
+
+docker exec -it mi-contenedor-php /bin/bash
+
+# driver mysql
+
+docker-php-ext-install mysqli
+docker-php-ext-enable mysqli
+
+service apache2 restart
+
+# inspeccionar el ip del contenedor y colocarlo en php  $servername = "172.17.0.2";
+
+docker inspect mi-contenedor-mysql

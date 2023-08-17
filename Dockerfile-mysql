@@ -1,0 +1,5 @@
+# Utilizar la imagen base de MySQL
+FROM mysql:debian
+
+# Copiar el archivo SQL a la ubicación de inicialización de la base de datos
+COPY datos.sql /docker-entrypoint-initdb.d/
